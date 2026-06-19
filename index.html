@@ -1,98 +1,2272 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Portfolio</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0f172a;
-      color: white;
-      text-align: center;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dishant M Parmar — Web Developer & Accountant</title>
+<meta name="description" content="Portfolio of Dishant M Parmar — Chartered Accountant work by day, full-stack web development by night. HTML, CSS, JavaScript, PHP, MySQL.">
 
-    header {
-      padding: 60px 20px;
-      background: linear-gradient(135deg, #2563eb, #7c3aed);
-    }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@500&display=swap">
 
-    h1 {
-      margin: 0;
-      font-size: 40px;
-    }
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.13/dist/lenis.min.js"></script>
 
-    p {
-      font-size: 18px;
-      opacity: 0.9;
-    }
+<style>
+  :root {
+    --forest-dark:  #0d1310;
+    --forest-mid:   #1a2420;
+    --forest-light: #2a3a34;
+    --off-white:    #f4f4f4;
+    --pure-white:   #ffffff;
+    --soft-black:   #1a1a1a;
 
-    section {
-      padding: 40px 20px;
-    }
+    --ease-quiet:    cubic-bezier(.22, 1, .36, 1);
+    --ease-precise:  cubic-bezier(.4, 0, .2, 1);
+    --ease-emphasis: cubic-bezier(.16, 1, .3, 1);
+  }
 
-    .card {
-      background: #1e293b;
-      margin: 15px auto;
-      padding: 20px;
-      border-radius: 12px;
-      max-width: 600px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
-    }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    a {
-      color: #60a5fa;
-      text-decoration: none;
-    }
+  html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
-    footer {
-      padding: 20px;
-      background: #111827;
-      font-size: 14px;
+  body {
+    background: var(--forest-dark);
+    color: var(--off-white);
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  ::selection { background: var(--off-white); color: var(--forest-dark); }
+
+  img { display: block; max-width: 100%; }
+
+  a { color: inherit; text-decoration: none; }
+
+  /* ============= Typography ============= */
+  h1, h2, h3, h4 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 0.9;
+  }
+
+  .label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 11px;
+    color: var(--off-white);
+    opacity: 0.6;
+  }
+
+  .body-text {
+    font-size: 16px;
+    line-height: 1.7;
+    opacity: 0.78;
+    max-width: 42ch;
+  }
+
+  .body-text--wide { max-width: 56ch; }
+
+  /* ============= Grain Noise ============= */
+  .grain {
+    position: fixed; inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.06;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+
+  /* ============= Navigation ============= */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 24px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background 400ms var(--ease-quiet), padding 400ms var(--ease-quiet), border-color 400ms var(--ease-quiet);
+    border-bottom: 1px solid transparent;
+  }
+
+  .nav.is-scrolled {
+    background: rgba(13, 19, 16, 0.85);
+    backdrop-filter: blur(20px) saturate(1.2);
+    -webkit-backdrop-filter: blur(20px) saturate(1.2);
+    padding: 16px 40px;
+    border-bottom-color: rgba(244, 244, 244, 0.06);
+  }
+
+  .nav__brand {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .nav__brand-dot {
+    width: 8px; height: 8px;
+    background: var(--off-white);
+    border-radius: 50%;
+    animation: breathe 3s var(--ease-quiet) infinite;
+  }
+
+  @keyframes breathe {
+    0%, 100% { opacity: 0.4; transform: scale(0.9); }
+    50%      { opacity: 1;   transform: scale(1.1); }
+  }
+
+  .nav__menu {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+  }
+
+  .nav__link {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--off-white);
+    opacity: 0.65;
+    transition: opacity 300ms var(--ease-quiet);
+    position: relative;
+    padding: 4px 0;
+  }
+
+  .nav__link::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 100%;
+    bottom: -2px;
+    height: 1px;
+    background: var(--off-white);
+    transition: right 400ms var(--ease-quiet);
+  }
+
+  .nav__link:hover { opacity: 1; }
+  .nav__link:hover::after { right: 0; }
+
+  .nav__cta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    padding: 12px 22px;
+    border: 1px solid rgba(244, 244, 244, 0.25);
+    border-radius: 999px;
+    transition: background 300ms var(--ease-quiet), color 300ms var(--ease-quiet), border-color 300ms var(--ease-quiet);
+  }
+
+  .nav__cta:hover {
+    background: var(--off-white);
+    color: var(--forest-dark);
+    border-color: var(--off-white);
+  }
+
+  .nav__burger {
+    display: none;
+    width: 32px; height: 32px;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+  }
+
+  .nav__burger span {
+    height: 1.5px;
+    background: var(--off-white);
+    transition: transform 300ms var(--ease-quiet), opacity 300ms var(--ease-quiet);
+  }
+
+  .nav__burger.is-open span:nth-child(1) { transform: translateY(3.5px) rotate(45deg); }
+  .nav__burger.is-open span:nth-child(2) { opacity: 0; }
+  .nav__burger.is-open span:nth-child(3) { transform: translateY(-3.5px) rotate(-45deg); }
+
+  .nav__mobile {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--forest-dark);
+    z-index: 99;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 28px;
+    transform: translateY(-100%);
+    transition: transform 600ms var(--ease-emphasis);
+  }
+
+  .nav__mobile.is-open { transform: translateY(0); }
+
+  .nav__mobile a {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 32px;
+    letter-spacing: -0.02em;
+  }
+
+  @media (max-width: 880px) {
+    .nav { padding: 18px 24px; }
+    .nav.is-scrolled { padding: 14px 24px; }
+    .nav__menu, .nav__cta { display: none; }
+    .nav__burger { display: flex; }
+  }
+
+  /* ============= Hero ============= */
+  .hero {
+    position: relative;
+    height: 100vh;
+    min-height: 720px;
+    overflow: hidden;
+    background: linear-gradient(180deg, var(--forest-dark) 0%, var(--forest-mid) 100%);
+  }
+
+  .hero__bg-text {
+    position: absolute;
+    bottom: -2vw;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: clamp(120px, 22vw, 360px);
+    line-height: 0.85;
+    letter-spacing: -0.04em;
+    color: var(--forest-light);
+    opacity: 0.55;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 1;
+    will-change: transform;
+  }
+
+  .hero__portrait {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: clamp(280px, 38vw, 560px);
+    height: clamp(380px, 52vw, 760px);
+    z-index: 2;
+    overflow: hidden;
+    will-change: transform;
+  }
+
+  .hero__portrait img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: grayscale(0.4) contrast(1.05) brightness(0.85);
+    mix-blend-mode: luminosity;
+  }
+
+  .hero__portrait::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 0%, transparent 60%, var(--forest-dark) 100%);
+  }
+
+  .hero__top {
+    position: absolute;
+    top: 120px;
+    left: 40px;
+    right: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    z-index: 5;
+    will-change: transform, opacity;
+  }
+
+  .hero__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .hero__meta-row {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    opacity: 0.6;
+  }
+
+  .hero__meta-row span { opacity: 0.45; }
+
+  .hero__title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 4;
+    text-align: center;
+    will-change: transform, opacity;
+  }
+
+  .hero__title-line {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: clamp(40px, 7vw, 110px);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    color: var(--pure-white);
+    overflow: hidden;
+  }
+
+  .hero__title-inner {
+    display: block;
+    transform: translateY(110%);
+  }
+
+  .hero__title-sub {
+    margin-top: 24px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    opacity: 0.7;
+  }
+
+  .hero__bottom {
+    position: absolute;
+    bottom: 40px;
+    left: 40px;
+    right: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    z-index: 5;
+  }
+
+  .hero__quote {
+    max-width: 24ch;
+    font-size: 13px;
+    line-height: 1.6;
+    opacity: 0.7;
+    font-style: italic;
+  }
+
+  .hero__scroll {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    opacity: 0.6;
+  }
+
+  .hero__scroll-line {
+    width: 1px; height: 48px;
+    background: linear-gradient(180deg, transparent, var(--off-white));
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero__scroll-line::after {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: 0; right: 0;
+    height: 50%;
+    background: var(--pure-white);
+    animation: scrollHint 2.4s var(--ease-quiet) infinite;
+  }
+
+  @keyframes scrollHint {
+    0%   { top: -100%; }
+    100% { top: 200%; }
+  }
+
+  @media (max-width: 880px) {
+    .hero__top, .hero__bottom { left: 24px; right: 24px; }
+    .hero__top { top: 100px; flex-direction: column; gap: 16px; }
+    .hero__bottom { bottom: 28px; flex-direction: column-reverse; gap: 18px; align-items: flex-start; }
+    .hero__quote { max-width: none; }
+  }
+
+  /* ============= Section ============= */
+  section {
+    position: relative;
+    padding: 8rem 2rem;
+  }
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .section__head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 4rem;
+  }
+
+  .section__head-line {
+    width: 40px; height: 1px;
+    background: var(--off-white);
+    opacity: 0.4;
+  }
+
+  .section__index {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    opacity: 0.5;
+    letter-spacing: 0.1em;
+  }
+
+  @media (max-width: 880px) {
+    section { padding: 5rem 1.5rem; }
+  }
+
+  /* ============= Identity / About ============= */
+  .identity {
+    background: var(--forest-dark);
+  }
+
+  .sticky-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: start;
+  }
+
+  .sticky-pair__left {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2rem;
+  }
+
+  .identity__heading {
+    font-size: clamp(40px, 5vw, 72px);
+    line-height: 0.95;
+  }
+
+  .identity__heading .line {
+    display: block;
+    overflow: hidden;
+  }
+
+  .identity__heading .inner {
+    display: block;
+    transform: translateY(110%);
+    transition: transform 1200ms var(--ease-quiet);
+    transition-delay: calc(var(--i, 0) * 180ms);
+  }
+
+  .identity__heading.is-in .inner { transform: translateY(0); }
+
+  .identity__heading em {
+    font-style: italic;
+    font-weight: 800;
+    opacity: 0.5;
+  }
+
+  .identity__bio {
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+  }
+
+  .identity__bio p {
+    font-size: 16px;
+    line-height: 1.75;
+    opacity: 0.78;
+    max-width: 42ch;
+  }
+
+  .identity__bio p strong {
+    color: var(--pure-white);
+    font-weight: 500;
+  }
+
+  .sticky-pair__right {
+    display: flex;
+    flex-direction: column;
+    gap: 6rem;
+  }
+
+  .identity__card {
+    border-top: 1px solid rgba(244, 244, 244, 0.1);
+    padding-top: 2rem;
+  }
+
+  .identity__card-label {
+    margin-bottom: 1rem;
+  }
+
+  .identity__card-title {
+    font-size: 22px;
+    font-weight: 800;
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    margin-bottom: 0.8rem;
+  }
+
+  .identity__card-text {
+    font-size: 14px;
+    line-height: 1.7;
+    opacity: 0.7;
+    max-width: 38ch;
+  }
+
+  .identity__card-image {
+    margin-top: 1.6rem;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    background: var(--forest-mid);
+  }
+
+  .identity__card-image img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: grayscale(0.5) brightness(0.8);
+    transition: transform 1.2s var(--ease-quiet), filter 1.2s var(--ease-quiet);
+  }
+
+  .identity__card:hover .identity__card-image img {
+    transform: scale(1.05);
+    filter: grayscale(0.2) brightness(0.95);
+  }
+
+  @media (max-width: 880px) {
+    .sticky-pair { grid-template-columns: 1fr; gap: 3rem; }
+    .sticky-pair__left { position: static; height: auto; }
+    .sticky-pair__right { gap: 3rem; }
+  }
+
+  /* ============= Marquee ============= */
+  .marquee {
+    background: var(--forest-mid);
+    padding: 3rem 0;
+    overflow: hidden;
+    border-top: 1px solid rgba(244, 244, 244, 0.08);
+    border-bottom: 1px solid rgba(244, 244, 244, 0.08);
+  }
+
+  .marquee__track {
+    display: flex;
+    gap: 4rem;
+    white-space: nowrap;
+    animation: marquee 40s linear infinite;
+  }
+
+  .marquee__item {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: clamp(36px, 5vw, 72px);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    gap: 4rem;
+    opacity: 0.85;
+  }
+
+  .marquee__item::after {
+    content: '';
+    width: 12px; height: 12px;
+    background: var(--off-white);
+    border-radius: 50%;
+    opacity: 0.4;
+  }
+
+  .marquee__item em {
+    font-style: italic;
+    font-weight: 800;
+    opacity: 0.45;
+  }
+
+  @keyframes marquee {
+    to { transform: translateX(-50%); }
+  }
+
+  /* ============= Skills ============= */
+  .skills {
+    background: var(--forest-dark);
+  }
+
+  .skills__intro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    margin-bottom: 6rem;
+    align-items: end;
+  }
+
+  .skills__title {
+    font-size: clamp(40px, 5vw, 72px);
+    line-height: 0.95;
+  }
+
+  .skills__title .line { display: block; overflow: hidden; }
+  .skills__title .inner {
+    display: block;
+    transform: translateY(110%);
+    transition: transform 1100ms var(--ease-quiet);
+    transition-delay: calc(var(--i, 0) * 160ms);
+  }
+  .skills__title.is-in .inner { transform: translateY(0); }
+
+  .skills__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: rgba(244, 244, 244, 0.08);
+    border: 1px solid rgba(244, 244, 244, 0.08);
+  }
+
+  .skill {
+    background: var(--forest-dark);
+    padding: 3rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 600ms var(--ease-quiet);
+    min-height: 280px;
+  }
+
+  .skill:hover { background: var(--forest-mid); }
+
+  .skill__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .skill__num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    opacity: 0.45;
+    letter-spacing: 0.1em;
+  }
+
+  .skill__badge {
+    width: 56px; height: 56px;
+    border: 1px solid rgba(244, 244, 244, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 400ms var(--ease-quiet);
+  }
+
+  .skill:hover .skill__badge { border-color: var(--off-white); }
+
+  .skill__badge svg {
+    width: 24px; height: 24px;
+    transition: transform 600ms var(--ease-quiet);
+  }
+
+  .skill:hover .skill__badge svg {
+    animation: spin-cw 8s linear infinite;
+  }
+
+  @keyframes spin-cw  { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+  @keyframes spin-ccw { from { transform: rotate(0); } to { transform: rotate(-360deg); } }
+
+  .skill__name {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: 32px;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .skill__desc {
+    font-size: 13px;
+    line-height: 1.7;
+    opacity: 0.7;
+    max-width: 38ch;
+  }
+
+  .skill__meta {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    opacity: 0.5;
+    padding-top: 1.6rem;
+    border-top: 1px solid rgba(244, 244, 244, 0.08);
+  }
+
+  @media (max-width: 760px) {
+    .skills__intro { grid-template-columns: 1fr; gap: 2rem; margin-bottom: 3rem; }
+    .skills__grid { grid-template-columns: 1fr; }
+    .skill { padding: 2rem 1.5rem; min-height: 240px; }
+    .skill__name { font-size: 26px; }
+  }
+
+  /* ============= Philosophy / Word Ring ============= */
+  .philosophy {
+    background: var(--forest-mid);
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .philosophy__inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+  }
+
+  .philosophy__left {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem 2rem 4rem 4rem;
+    gap: 2rem;
+  }
+
+  .philosophy__label {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .philosophy__label-line {
+    width: 36px; height: 1px;
+    background: var(--off-white);
+    opacity: 0.4;
+  }
+
+  .philosophy__title {
+    font-size: clamp(40px, 4.5vw, 64px);
+    line-height: 0.95;
+  }
+
+  .philosophy__title .line { display: block; overflow: hidden; }
+  .philosophy__title .inner {
+    display: block;
+    transform: translateY(110%);
+    transition: transform 1100ms var(--ease-quiet);
+    transition-delay: calc(var(--i, 0) * 160ms);
+  }
+  .philosophy__title.is-in .inner { transform: translateY(0); }
+
+  .philosophy__title em {
+    font-style: italic;
+    opacity: 0.45;
+  }
+
+  .philosophy__body {
+    max-width: 38ch;
+    font-size: 15px;
+    line-height: 1.75;
+    opacity: 0.75;
+  }
+
+  .philosophy__right {
+    position: relative;
+    perspective: 1000px;
+    perspective-origin: 50% 50%;
+    overflow: hidden;
+  }
+
+  .ring-stage {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform-style: preserve-3d;
+  }
+
+  .ring {
+    position: relative;
+    width: 1px; height: 1px;
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+
+  .ring-item {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform-origin: center;
+    will-change: transform, filter;
+  }
+
+  .ring-item span {
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: clamp(28px, 3.2vw, 48px);
+    letter-spacing: -0.02em;
+    color: var(--off-white);
+    white-space: nowrap;
+    transform: translate(-50%, -50%);
+    will-change: transform;
+  }
+
+  .ring-item:nth-child(even) span {
+    color: var(--forest-light);
+    font-style: italic;
+    opacity: 0.6;
+  }
+
+  @media (max-width: 880px) {
+    .philosophy__inner { grid-template-columns: 1fr; }
+    .philosophy__left { position: static; height: auto; padding: 4rem 1.5rem 2rem; }
+    .philosophy__right { height: 80vh; }
+    .ring-stage { position: relative; }
+  }
+
+  /* ============= Work / Selected ============= */
+  .work {
+    background: var(--forest-dark);
+  }
+
+  .work__head {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 6rem;
+    align-items: end;
+  }
+
+  .work__title {
+    font-size: clamp(40px, 5vw, 72px);
+    line-height: 0.95;
+  }
+
+  .work__title .line { display: block; overflow: hidden; }
+  .work__title .inner {
+    display: block;
+    transform: translateY(110%);
+    transition: transform 1100ms var(--ease-quiet);
+    transition-delay: calc(var(--i, 0) * 160ms);
+  }
+  .work__title.is-in .inner { transform: translateY(0); }
+
+  .work__list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .work-item {
+    display: grid;
+    grid-template-columns: 80px 2fr 3fr 1fr;
+    gap: 2rem;
+    padding: 2.4rem 0;
+    border-top: 1px solid rgba(244, 244, 244, 0.08);
+    align-items: center;
+    transition: padding 400ms var(--ease-quiet);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .work-item:last-child { border-bottom: 1px solid rgba(244, 244, 244, 0.08); }
+
+  .work-item:hover { padding-left: 1rem; padding-right: 1rem; }
+
+  .work-item__num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    opacity: 0.45;
+    letter-spacing: 0.1em;
+  }
+
+  .work-item__title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: clamp(22px, 2.4vw, 32px);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  .work-item__title em {
+    font-style: italic;
+    opacity: 0.5;
+    font-weight: 800;
+  }
+
+  .work-item__desc {
+    font-size: 13px;
+    line-height: 1.65;
+    opacity: 0.65;
+    max-width: 48ch;
+  }
+
+  .work-item__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justifyify-content: flex-end;
+  }
+
+  .work-item__tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    padding: 6px 10px;
+    border: 1px solid rgba(244, 244, 244, 0.15);
+    border-radius: 999px;
+    opacity: 0.7;
+  }
+
+  .work-item__image {
+    position: absolute;
+    right: 0; top: 50%;
+    transform: translateY(-50%) translateX(20%);
+    width: 280px;
+    height: 180px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 500ms var(--ease-quiet), transform 700ms var(--ease-quiet);
+    z-index: 2;
+    overflow: hidden;
+  }
+
+  .work-item:hover .work-item__image {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+
+  .work-item__image img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: grayscale(0.4) brightness(0.9);
+  }
+
+  @media (max-width: 880px) {
+    .work__head { grid-template-columns: 1fr; gap: 1.5rem; margin-bottom: 3rem; }
+    .work-item { grid-template-columns: 1fr; gap: 0.8rem; padding: 2rem 0; }
+    .work-item__image { display: none; }
+    .work-item:hover { padding-left: 0; padding-right: 0; }
+    .work-item__tags { justify-content: flex-start; }
+  }
+
+  /* ============= Education ============= */
+  .education {
+    background: var(--forest-mid);
+  }
+
+  .edu__head {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 5rem;
+    align-items: end;
+  }
+
+  .edu__title {
+    font-size: clamp(40px, 5vw, 72px);
+    line-height: 0.95;
+  }
+
+  .edu__title .line { display: block; overflow: hidden; }
+  .edu__title .inner {
+    display: block;
+    transform: translateY(110%);
+    transition: transform 1100ms var(--ease-quiet);
+    transition-delay: calc(var(--i, 0) * 160ms);
+  }
+  .edu__title.is-in .inner { transform: translateY(0); }
+
+  .edu__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(244, 244, 244, 0.08);
+    border: 1px solid rgba(244, 244, 244, 0.08);
+  }
+
+  .edu-card {
+    background: var(--forest-mid);
+    padding: 2.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+    min-height: 320px;
+    transition: background 500ms var(--ease-quiet);
+  }
+
+  .edu-card:hover { background: var(--forest-light); }
+
+  .edu-card__year {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    opacity: 0.55;
+    letter-spacing: 0.14em;
+  }
+
+  .edu-card__title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 24px;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+  }
+
+  .edu-card__institute {
+    font-size: 13px;
+    opacity: 0.7;
+    line-height: 1.5;
+  }
+
+  .edu-card__detail {
+    margin-top: auto;
+    font-size: 12px;
+    line-height: 1.7;
+    opacity: 0.65;
+    padding-top: 1.4rem;
+    border-top: 1px solid rgba(244, 244, 244, 0.1);
+  }
+
+  @media (max-width: 880px) {
+    .edu__head { grid-template-columns: 1fr; gap: 1.5rem; margin-bottom: 3rem; }
+    .edu__grid { grid-template-columns: 1fr; }
+  }
+
+  /* ============= Process ============= */
+  .process {
+    background: var(--forest-dark);
+  }
+
+  .process__head {
+    margin-bottom: 5rem;
+    max-width: 700px;
+  }
+
+  .process__title {
+    font-size: clamp(40px, 5vw, 72px);
+    line-height: 0.95;
+    margin-top: 1rem;
+  }
+
+  .process__title .line { display: block; overflow: hidden; }
+  .process__title .inner {
+    display: block;
+    transform: translateY(110%);
+    transition: transform 1100ms var(--ease-quiet);
+    transition-delay: calc(var(--i, 0) * 160ms);
+  }
+  .process__title.is-in .inner { transform: translateY(0); }
+
+  .process__steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+
+  .step {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(244, 244, 244, 0.15);
+  }
+
+  .step__num {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: 56px;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    opacity: 0.85;
+  }
+
+  .step__title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+
+  .step__desc {
+    font-size: 13px;
+    line-height: 1.65;
+    opacity: 0.7;
+  }
+
+  @media (max-width: 880px) {
+    .process__steps { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .step__num { font-size: 44px; }
+  }
+
+  @media (max-width: 520px) {
+    .process__steps { grid-template-columns: 1fr; }
+  }
+
+  /* ============= Stats ============= */
+  .stats {
+    background: var(--forest-mid);
+    padding: 5rem 2rem;
+    border-top: 1px solid rgba(244, 244, 244, 0.08);
+    border-bottom: 1px solid rgba(244, 244, 244, 0.08);
+  }
+
+  .stats__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .stat__num {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: clamp(48px, 5vw, 80px);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+  }
+
+  .stat__num em {
+    font-style: italic;
+    opacity: 0.4;
+    font-size: 0.5em;
+    margin-left: 4px;
+    vertical-align: super;
+  }
+
+  .stat__label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    opacity: 0.55;
+  }
+
+  @media (max-width: 880px) {
+    .stats__grid { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+  }
+
+  /* ============= Contact ============= */
+  .contact {
+    background: var(--forest-dark);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .contact__bg-text {
+    position: absolute;
+    bottom: -4vw;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: clamp(120px, 24vw, 400px);
+    line-height: 0.85;
+    letter-spacing: -0.04em;
+    color: var(--forest-mid);
+    opacity: 0.7;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .contact__inner {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .contact__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 2.5rem;
+  }
+
+  .contact__label-line {
+    width: 32px; height: 1px;
+    background: var(--off-white);
+    opacity: 0.5;
+  }
+
+  .contact__title {
+    font-size: clamp(48px, 7vw, 110px);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 2rem;
+  }
+
+  .contact__title em {
+    font-style: italic;
+    opacity: 0.5;
+  }
+
+  .contact__title .line { display: block; overflow: hidden; }
+  .contact__title .inner {
+    display: block;
+    transform: translateY(110%);
+    transition: transform 1200ms var(--ease-quiet);
+    transition-delay: calc(var(--i, 0) * 180ms);
+  }
+  .contact__title.is-in .inner { transform: translateY(0); }
+
+  .contact__desc {
+    max-width: 50ch;
+    margin: 0 auto 4rem;
+    font-size: 16px;
+    line-height: 1.7;
+    opacity: 0.7;
+  }
+
+  .contact__channels {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: rgba(244, 244, 244, 0.08);
+    border: 1px solid rgba(244, 244, 244, 0.08);
+    margin-bottom: 3rem;
+  }
+
+  .channel {
+    background: var(--forest-dark);
+    padding: 2.5rem 2rem;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: background 400ms var(--ease-quiet);
+  }
+
+  .channel:hover { background: var(--forest-mid); }
+
+  .channel__label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    opacity: 0.5;
+  }
+
+  .channel__value {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: clamp(20px, 2.2vw, 28px);
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    color: var(--off-white);
+  }
+
+  .channel__action {
+    margin-top: 6px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    opacity: 0.5;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: opacity 300ms var(--ease-quiet);
+  }
+
+  .channel:hover .channel__action { opacity: 1; }
+
+  .channel__action svg {
+    width: 14px; height: 14px;
+    transition: transform 400ms var(--ease-quiet);
+  }
+
+  .channel:hover .channel__action svg { transform: translate(4px, -4px); }
+
+  .contact__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 36px;
+    border: 1px solid var(--off-white);
+    border-radius: 999px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    transition: background 400ms var(--ease-quiet), color 400ms var(--ease-quiet);
+  }
+
+  .contact__cta:hover {
+    background: var(--off-white);
+    color: var(--forest-dark);
+  }
+
+  .contact__cta svg {
+    width: 14px; height: 14px;
+    transition: transform 400ms var(--ease-quiet);
+  }
+
+  .contact__cta:hover svg { transform: translate(4px, -4px); }
+
+  @media (max-width: 760px) {
+    .contact__channels { grid-template-columns: 1fr; }
+  }
+
+  /* ============= Footer ============= */
+  .footer {
+    background: var(--forest-dark);
+    padding: 3rem 2rem 2rem;
+    border-top: 1px solid rgba(244, 244, 244, 0.08);
+    position: relative;
+    z-index: 3;
+  }
+
+  .footer__top {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .footer__brand {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: 18px;
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .footer__brand-dot {
+    width: 8px; height: 8px;
+    background: var(--off-white);
+    border-radius: 50%;
+  }
+
+  .footer__nav {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .footer__nav a {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    opacity: 0.65;
+    transition: opacity 300ms var(--ease-quiet);
+  }
+
+  .footer__nav a:hover { opacity: 1; }
+
+  .footer__bottom {
+    max-width: 1400px;
+    margin: 3rem auto 0;
+    padding-top: 1.6rem;
+    border-top: 1px solid rgba(244, 244, 244, 0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    opacity: 0.45;
+  }
+
+  /* ============= Reveal Helpers ============= */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(36px);
+    transition: opacity 1100ms var(--ease-quiet), transform 1100ms var(--ease-quiet);
+  }
+
+  .fade-up.is-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ============= Reduced motion ============= */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
     }
-  </style>
+    .hero__title-inner, .identity__heading .inner, .skills__title .inner,
+    .philosophy__title .inner, .work__title .inner, .edu__title .inner,
+    .process__title .inner, .contact__title .inner {
+      transform: translateY(0) !important;
+    }
+    .fade-up { opacity: 1; transform: none; }
+  }
+</style>
 </head>
 <body>
 
-<header>
-  <h1>Hi, I'm Your Name 👋</h1>
-  <p>Web Developer | Designer | Learner</p>
-</header>
+<div class="grain"></div>
 
-<section>
-  <div class="card">
-    <h2>About Me</h2>
-    <p>
-      I am a beginner developer learning web development and building projects using HTML, CSS, and JavaScript.
-    </p>
+<!-- ============= Navigation ============= -->
+<nav class="nav" id="nav">
+  <a href="#hero" class="nav__brand">
+    <span class="nav__brand-dot"></span>
+    Dishant M Parmar
+  </a>
+  <div class="nav__menu">
+    <a href="#identity" class="nav__link">Identity</a>
+    <a href="#skills" class="nav__link">Skills</a>
+    <a href="#philosophy" class="nav__link">Philosophy</a>
+    <a href="#work" class="nav__link">Work</a>
+    <a href="#education" class="nav__link">Education</a>
+  </div>
+  <a href="#contact" class="nav__cta">Begin a project</a>
+  <button class="nav__burger" id="navBurger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="nav__mobile" id="navMobile">
+  <a href="#identity">Identity</a>
+  <a href="#skills">Skills</a>
+  <a href="#philosophy">Philosophy</a>
+  <a href="#work">Work</a>
+  <a href="#education">Education</a>
+  <a href="#contact">Contact</a>
+</div>
+
+<!-- ============= Hero ============= -->
+<section class="hero" id="hero">
+  <div class="hero__bg-text" id="heroBgText">PARMAR</div>
+
+  <div class="hero__portrait" id="heroPortrait">
+    <img src="https://picsum.photos/seed/dishant-forest-portrait/800/1100" alt="Dishant M Parmar portrait">
   </div>
 
-  <div class="card">
-    <h2>My Skills</h2>
-    <p>HTML, CSS, JavaScript, GitHub, VS Code</p>
+  <div class="hero__top" id="heroTop">
+    <div class="hero__meta">
+      <div class="hero__meta-row">Portfolio · 2026</div>
+      <div class="hero__meta-row"><span>Based in</span> Gujarat, India</div>
+      <div class="hero__meta-row"><span>Available</span> jun - 2026</div>
+    </div>
+    <div class="hero__meta" style="text-align: right;">
+      <div class="hero__meta-row">Accountant / Web Developer</div>
+      <div class="hero__meta-row"><span>Practice since</span> 2023</div>
+      <div class="hero__meta-row"><span>Code since</span> 2023</div>
+    </div>
   </div>
 
-  <div class="card">
-    <h2>Projects</h2>
-    <p>
-      👉 Project 1: Portfolio Website<br>
-      👉 Project 2: Calculator (coming soon)
-    </p>
+  <div class="hero__title" id="heroTitle">
+    <div class="hero__title-line"><span class="hero__title-inner">Dishant M</span></div>
+    <div class="hero__title-line"><span class="hero__title-inner">Parmar</span></div>
+    <div class="hero__title-sub">Numbers by day · Code by night</div>
   </div>
 
-  <div class="card">
-    <h2>Contact</h2>
-    <p>
-      Email: dishantparmar84@email.com <br>
-      GitHub: <a href="https://github.com/dishantparmar22/">My GitHub</a>
+  <div class="hero__bottom" id="heroBottom">
+    <p class="hero__quote">
+      "A ledger that doesn't balance is a story half-told.<br>A page that doesn't load is a story never read."
     </p>
+    <div class="hero__scroll">
+      <span>Scroll</span>
+      <div class="hero__scroll-line"></div>
+    </div>
   </div>
 </section>
 
-<footer>
-  © 2026 My Portfolio | Made with ❤️ using GitHub Pages
+<!-- ============= Identity / About ============= -->
+<section class="identity" id="identity">
+  <div class="container">
+    <div class="section__head">
+      <span class="section__head-line"></span>
+      <span class="section__index">01 / Identity</span>
+    </div>
+
+    <div class="sticky-pair">
+      <div class="sticky-pair__left">
+        <h2 class="identity__heading">
+          <span class="line"><span class="inner">Two languages,</span></span>
+          <span class="line"><span class="inner">one <em>precision.</em></span></span>
+        </h2>
+        <div class="identity__bio">
+          <p>
+            I'm <strong>Dishant M Parmar</strong> — an accountant who codes, and a developer who still closes his books by hand. By day I keep ledgers, reconcile accounts, and translate a business into the language of numbers. By night I build interfaces, query databases, and ship code that someone, somewhere, will rely on.
+          </p>
+          <p>
+            I hold a <strong>BCA in Computer Applications</strong> alongside my accounting practice. The two were never separate for me — both reward patience, both punish guesswork, and both come down to the same question: <em>does it balance?</em>
+          </p>
+        </div>
+      </div>
+
+      <div class="sticky-pair__right">
+        <div class="identity__card fade-up">
+          <div class="label identity__card-label">Practice · Day</div>
+          <h3 class="identity__card-title">Accounting & Books</h3>
+          <p class="identity__card-text">
+            GST returns, TDS, bank reconciliation, final accounts. I work mostly with small businesses — the kind where the owner walks in with a shoebox of receipts and walks out with a balance sheet they actually understand.
+          </p>
+          <div class="identity__card-image">
+            <img src="https://picsum.photos/seed/ledger-papers-quiet-desk/640/480" alt="Ledger papers on a quiet desk" loading="lazy">
+          </div>
+        </div>
+
+        <div class="identity__card fade-up">
+          <div class="label identity__card-label">Practice · Night</div>
+          <h3 class="identity__card-title">Web Development</h3>
+          <p class="identity__card-text">
+            HTML, CSS, vanilla JavaScript on the front. PHP and MySQL on the back. I avoid heavy frameworks unless the project demands them — most websites are better served by a few well-written files than a build pipeline that takes forty seconds to start.
+          </p>
+          <div class="identity__card-image">
+            <img src="https://picsum.photos/seed/code-editor-late-hours/640/480" alt="Code editor in late hours" loading="lazy">
+          </div>
+        </div>
+
+        <div class="identity__card fade-up">
+          <div class="label identity__card-label">Where they meet</div>
+          <h3 class="identity__card-title">Systems for shops who hate software</h3>
+          <p class="identity__card-text">
+            My favourite projects sit at the intersection — a small inventory tool for a textile merchant, an invoice generator for a CA firm, a dashboard that pulls rows from MySQL and turns them into something a non-technical owner can actually read.
+          </p>
+          <div class="identity__card-image">
+            <img src="https://picsum.photos/seed/forest-mist-canopy-quiet/640/480" alt="Forest mist canopy" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= Marquee ============= -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    <div class="marquee__item">HTML</div>
+    <div class="marquee__item"><em>CSS</em></div>
+    <div class="marquee__item">JavaScript</div>
+    <div class="marquee__item"><em>PHP</em></div>
+    <div class="marquee__item">MySQL</div>
+    <div class="marquee__item"><em>Accounting</em></div>
+    <div class="marquee__item">GST · TDS</div>
+    <div class="marquee__item"><em>Reconciliation</em></div>
+    <div class="marquee__item">HTML</div>
+    <div class="marquee__item"><em>CSS</em></div>
+    <div class="marquee__item">JavaScript</div>
+    <div class="marquee__item"><em>PHP</em></div>
+    <div class="marquee__item">MySQL</div>
+    <div class="marquee__item"><em>Accounting</em></div>
+    <div class="marquee__item">GST · TDS</div>
+    <div class="marquee__item"><em>Reconciliation</em></div>
+  </div>
+</div>
+
+<!-- ============= Skills ============= -->
+<section class="skills" id="skills">
+  <div class="container">
+    <div class="section__head">
+      <span class="section__head-line"></span>
+      <span class="section__index">02 / Skills</span>
+    </div>
+
+    <div class="skills__intro">
+      <h2 class="skills__title">
+        <span class="line"><span class="inner">Five tools,</span></span>
+        <span class="line"><span class="inner">used <em>honestly.</em></span></span>
+      </h2>
+      <p class="body-text body-text--wide">
+        I don't claim twenty frameworks. I claim five disciplines, and I claim them properly. Every project I ship uses at least three of these — and not one I haven't used in production.
+      </p>
+    </div>
+
+    <div class="skills__grid">
+
+      <div class="skill fade-up">
+        <div class="skill__head">
+          <span class="skill__num">01</span>
+          <div class="skill__badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M4 4l1.5 16L12 22l6.5-2L20 4H4z"/>
+              <path d="M8 8h8M8 12h8M8 16h5"/>
+            </svg>
+          </div>
+        </div>
+        <h3 class="skill__name">HTML</h3>
+        <p class="skill__desc">
+          Semantic, accessible, hand-written. I treat markup like a ledger — every entry has a reason, every tag a column it belongs to.
+        </p>
+        <div class="skill__meta">
+          <span>Markup</span>
+          <span>3+ yrs</span>
+        </div>
+      </div>
+
+      <div class="skill fade-up">
+        <div class="skill__head">
+          <span class="skill__num">02</span>
+          <div class="skill__badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="3" y="3" width="18" height="18"/>
+              <path d="M3 9h18M3 15h18M9 3v18M15 3v18"/>
+            </svg>
+          </div>
+        </div>
+        <h3 class="skill__name">CSS</h3>
+        <p class="skill__desc">
+          Layout, type, motion. I write CSS like I dress — restrained, considered, no logos. Custom properties, grid, and a healthy respect for whitespace.
+        </p>
+        <div class="skill__meta">
+          <span>Styling</span>
+          <span>3+ yrs</span>
+        </div>
+      </div>
+
+      <div class="skill fade-up">
+        <div class="skill__head">
+          <span class="skill__num">03</span>
+          <div class="skill__badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <path d="M9 17l3-10 3 10M10 14h4"/>
+            </svg>
+          </div>
+        </div>
+        <h3 class="skill__name">JavaScript</h3>
+        <p class="skill__desc">
+          Vanilla first, always. DOM, events, fetch, IntersectionObserver. I reach for a library only when the cost of not doing so is greater than the cost of the dependency.
+        </p>
+        <div class="skill__meta">
+          <span>Behaviour</span>
+          <span>3+ yrs</span>
+        </div>
+      </div>
+
+      <div class="skill fade-up">
+        <div class="skill__head">
+          <span class="skill__num">04</span>
+          <div class="skill__badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <ellipse cx="12" cy="5" rx="9" ry="3"/>
+              <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+              <path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/>
+            </svg>
+          </div>
+        </div>
+        <h3 class="skill__name">PHP</h3>
+        <p class="skill__desc">
+          Server-side workhorse. Sessions, forms, REST endpoints, PDF generation, mail. I've shipped invoicing systems and small ERPs that still run today without a single incident.
+        </p>
+        <div class="skill__meta">
+          <span>Backend</span>
+          <span>2+ yrs</span>
+        </div>
+      </div>
+
+      <div class="skill fade-up">
+        <div class="skill__head">
+          <span class="skill__num">05</span>
+          <div class="skill__badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M3 7l9-4 9 4-9 4-9-4z"/>
+              <path d="M3 12l9 4 9-4M3 17l9 4 9-4"/>
+            </svg>
+          </div>
+        </div>
+        <h3 class="skill__name">MySQL</h3>
+        <p class="skill__desc">
+          Schema design, joins, indexing, backups. The database is where accounting and code think the same way — rows, relations, integrity. I treat it with the respect it deserves.
+        </p>
+        <div class="skill__meta">
+          <span>Data</span>
+          <span>2+ yrs</span>
+        </div>
+      </div>
+
+      <div class="skill fade-up">
+        <div class="skill__head">
+          <span class="skill__num">06</span>
+          <div class="skill__badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M4 4h16v4H4zM4 12h10v4H4zM4 20h16"/>
+              <path d="M18 12l2 2-2 2M20 14h-6"/>
+            </svg>
+          </div>
+        </div>
+        <h3 class="skill__name">Accounting</h3>
+        <p class="skill__desc">
+          The sixth tool, and the oldest. Books of original entry, trial balance, P&amp;L, balance sheet, GST and TDS compliance. The discipline that taught me everything I know about code.
+        </p>
+        <div class="skill__meta">
+          <span>Practice</span>
+          <span>1+ yrs</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============= Philosophy / Word Ring ============= -->
+<section class="philosophy" id="philosophy">
+  <div class="philosophy__inner">
+    <div class="philosophy__left">
+      <div class="philosophy__label">
+        <span class="philosophy__label-line"></span>
+        <span class="label">03 / Philosophy</span>
+      </div>
+      <h2 class="philosophy__title">
+        <span class="line"><span class="inner">The same</span></span>
+        <span class="line"><span class="inner">six habits</span></span>
+        <span class="line"><span class="inner">run <em>both</em></span></span>
+        <span class="line"><span class="inner">practices.</span></span>
+      </h2>
+      <p class="philosophy__body">
+        Whether I'm closing a client's books or shipping a website, the work follows the same rhythm: read everything, name things honestly, leave a trail, test the edge cases, ship when it balances, document what you did. Scroll the ring — these are the words I keep.
+      </p>
+    </div>
+    <div class="philosophy__right">
+      <div class="ring-stage">
+        <div class="ring" id="wordRing"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= Work / Selected ============= -->
+<section class="work" id="work">
+  <div class="container">
+    <div class="section__head">
+      <span class="section__head-line"></span>
+      <span class="section__index">04 / Selected work</span>
+    </div>
+
+    <div class="work__head">
+      <h2 class="work__title">
+        <span class="line"><span class="inner">A few projects</span></span>
+        <span class="line"><span class="inner">that <em>balance.</em></span></span>
+      </h2>
+      <p class="body-text body-text--wide">
+        Six recent builds across both practices. Some are websites, some are tools, one is an internal system that runs daily. None are pixel-perfect mockups — they're real things, used by real people, shipping today.
+      </p>
+    </div>
+
+    <div class="work__list">
+
+      <a href="#contact" class="work-item">
+        <div class="work-item__num">01</div>
+        <h3 class="work-item__title">Invoice generator <em>for a CA firm</em></h3>
+        <p class="work-item__desc">PHP + MySQL invoice builder with GST auto-calc, PDF export, and a client portal. Replaces an Excel sheet that took three hours every month.</p>
+        <div class="work-item__tags">
+          <span class="work-item__tag">PHP</span>
+          <span class="work-item__tag">MySQL</span>
+          <span class="work-item__tag">PDF</span>
+        </div>
+        <div class="work-item__image">
+          <img src="https://picsum.photos/seed/invoice-system-screen/560/360" alt="Invoice system" loading="lazy">
+        </div>
+      </a>
+
+      <a href="#contact" class="work-item">
+        <div class="work-item__num">02</div>
+        <h3 class="work-item__title">Textile merchant <em>inventory tool</em></h3>
+        <p class="work-item__desc">Lightweight inventory dashboard for a wholesale fabric merchant in Surat. Tracks 4,200+ SKUs, generates reorder alerts, and exports daily to Tally.</p>
+        <div class="work-item__tags">
+          <span class="work-item__tag">JavaScript</span>
+          <span class="work-item__tag">PHP</span>
+          <span class="work-item__tag">MySQL</span>
+        </div>
+        <div class="work-item__image">
+          <img src="https://picsum.photos/seed/inventory-dashboard-quiet/560/360" alt="Inventory dashboard" loading="lazy">
+        </div>
+      </a>
+
+      <a href="#contact" class="work-item">
+        <div class="work-item__num">03</div>
+        <h3 class="work-item__title">Portfolio site <em>for a lawyer</em></h3>
+        <p class="work-item__desc">Single-page portfolio for a Vadodara-based advocate. Hand-written HTML/CSS/JS, 100/100 Lighthouse, loads in 0.4s on 3G.</p>
+        <div class="work-item__tags">
+          <span class="work-item__tag">HTML</span>
+          <span class="work-item__tag">CSS</span>
+          <span class="work-item__tag">JS</span>
+        </div>
+        <div class="work-item__image">
+          <img src="https://picsum.photos/seed/lawyer-portfolio-forest/560/360" alt="Lawyer portfolio" loading="lazy">
+        </div>
+      </a>
+
+      <a href="#contact" class="work-item">
+        <div class="work-item__num">04</div>
+        <h3 class="work-item__title">Monthly books <em>for 14 SMEs</em></h3>
+        <p class="work-item__desc">Retained accounting engagement — monthly bookkeeping, GST returns, and quarterly reconciliation for fourteen small businesses across Gujarat.</p>
+        <div class="work-item__tags">
+          <span class="work-item__tag">Tally</span>
+          <span class="work-item__tag">GST</span>
+          <span class="work-item__tag">TDS</span>
+        </div>
+        <div class="work-item__image">
+          <img src="https://picsum.photos/seed/accounting-books-stack/560/360" alt="Accounting books" loading="lazy">
+        </div>
+      </a>
+
+      <a href="#contact" class="work-item">
+        <div class="work-item__num">05</div>
+        <h3 class="work-item__title">Pharmacy <em>billing + stock</em></h3>
+        <p class="work-item__desc">POS and stock system for a chain of three pharmacies. Handles batch expiry, salt-based search, and prints GST-compliant receipts on thermal printers.</p>
+        <div class="work-item__tags">
+          <span class="work-item__tag">PHP</span>
+          <span class="work-item__tag">MySQL</span>
+          <span class="work-item__tag">POS</span>
+        </div>
+        <div class="work-item__image">
+          <img src="https://picsum.photos/seed/pharmacy-counter-quiet/560/360" alt="Pharmacy counter" loading="lazy">
+        </div>
+      </a>
+
+      <a href="#contact" class="work-item">
+        <div class="work-item__num">06</div>
+        <h3 class="work-item__title">Forest-toned <em>brand site</em></h3>
+        <p class="work-item__desc">This very site — the portfolio you're reading. Hand-built, no framework, no build step. Forest palette because Gujarat after sunset looks exactly like this.</p>
+        <div class="work-item__tags">
+          <span class="work-item__tag">HTML</span>
+          <span class="work-item__tag">CSS</span>
+          <span class="work-item__tag">GSAP</span>
+        </div>
+        <div class="work-item__image">
+          <img src="https://picsum.photos/seed/forest-portfolio-screen/560/360" alt="Forest portfolio" loading="lazy">
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============= Education ============= -->
+<section class="education" id="education">
+  <div class="container">
+    <div class="section__head">
+      <span class="section__head-line"></span>
+      <span class="section__index">05 / Education</span>
+    </div>
+
+    <div class="edu__head">
+      <h2 class="edu__title">
+        <span class="line"><span class="inner">Where I</span></span>
+        <span class="line"><span class="inner">learned the</span></span>
+        <span class="line"><span class="inner"><em>trade.</em></span></span>
+      </h2>
+      <p class="body-text body-text--wide">
+        Three formal stops — and a long list of informal ones. The BCA gave me the scaffolding; the accounting articleship gave me the discipline; the years between gave me the rest.
+      </p>
+    </div>
+
+    <div class="edu__grid">
+
+      <div class="edu-card fade-up">
+        <span class="edu-card__year">2023 — 2027</span>
+        <h3 class="edu-card__title">Bachelor of Computer Applications</h3>
+        <p class="edu-card__institute">saurashtra university · BCA</p>
+        <p class="edu-card__detail">
+          Three years covering C, C++, Java, DBMS, web technologies, software engineering, and accounting fundamentals. Final year project: a PHP/MySQL student attendance system still in use at the department.
+        </p>
+      </div>
+
+      <div class="edu-card fade-up">
+        <span class="edu-card__year">2025 — Present</span>
+        <h3 class="edu-card__title">Accounting job &amp; Practice</h3>
+        <p class="edu-card__institute">samrat security force · Gujarat</p>
+        <p class="edu-card__detail">
+          Articleship in a mid-size firm, then independent practice. GST, TDS, income tax, final accounts. Today I serve 14 retained clients across retail, services, and small manufacturing.
+        </p>
+      </div>
+
+      <div class="edu-card fade-up">
+        <span class="edu-card__year">2021 — Present</span>
+        <h3 class="edu-card__title">graphic design</h3>
+        <p class="edu-card__institute">build design with creative</p>
+        <p class="edu-card__detail">
+          Learned fundamentals of design including typography, color theory, and logo creation. Skilled in using Photoshop, Illustrator, and Canva for creative projects.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============= Process ============= -->
+<section class="process">
+  <div class="container">
+    <div class="section__head">
+      <span class="section__head-line"></span>
+      <span class="section__index">06 / Process</span>
+    </div>
+
+    <div class="process__head">
+      <h2 class="process__title">
+        <span class="line"><span class="inner">Four steps,</span></span>
+        <span class="line"><span class="inner">in <em>order.</em></span></span>
+      </h2>
+    </div>
+
+    <div class="process__steps">
+      <div class="step fade-up">
+        <span class="step__num">01</span>
+        <h3 class="step__title">Read everything</h3>
+        <p class="step__desc">Before I write a line of code or open a ledger, I read the brief twice. I read the existing books. I read what the client actually does, not what they say they do. Most errors are made here, before the work starts.</p>
+      </div>
+      <div class="step fade-up">
+        <span class="step__num">02</span>
+        <h3 class="step__title">Name things honestly</h3>
+        <p class="step__desc">Variables, ledger heads, files, routes — every name says what it is, not what I hoped it would be. <em>sundry_creditors_v2_final</em> is a lie. <em>outstanding_payables_march_2025</em> is the truth.</p>
+      </div>
+      <div class="step fade-up">
+        <span class="step__num">03</span>
+        <h3 class="step__title">Test the edge cases</h3>
+        <p class="step__desc">Negative numbers. Leap years. Empty form fields. A user who types "two thousand" instead of 2000. I find the boundary of every system before someone else does, because they always do.</p>
+      </div>
+      <div class="step fade-up">
+        <span class="step__num">04</span>
+        <h3 class="step__title">Ship when it balances</h3>
+        <p class="step__desc">The trial balance has to foot. The build has to pass. The client has to be able to use it without me on a Sunday. When those three are true, we ship. Not before.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= Stats ============= -->
+<section class="stats">
+  <div class="stats__grid">
+    <div class="stat fade-up">
+      <div class="stat__num">14<em>retained</em></div>
+      <div class="stat__label">Accounting clients</div>
+    </div>
+    <div class="stat fade-up">
+      <div class="stat__num">38</div>
+      <div class="stat__label">Sites & systems shipped</div>
+    </div>
+    <div class="stat fade-up">
+      <div class="stat__num">6<em>yrs</em></div>
+      <div class="stat__label">In practice</div>
+    </div>
+    <div class="stat fade-up">
+      <div class="stat__num">0</div>
+      <div class="stat__label">Frameworks required</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= Contact ============= -->
+<section class="contact" id="contact">
+  <div class="contact__bg-text">CONTACT</div>
+
+  <div class="container">
+    <div class="contact__inner">
+
+      <div class="contact__label">
+        <span class="contact__label-line"></span>
+        <span class="label">07 / Begin a project</span>
+        <span class="contact__label-line"></span>
+      </div>
+
+      <h2 class="contact__title">
+        <span class="line"><span class="inner">Let's</span></span>
+        <span class="line"><span class="inner">build something</span></span>
+        <span class="line"><span class="inner"><em>quiet.</em></span></span>
+      </h2>
+
+      <p class="contact__desc">
+        Whether it's a website that needs to load fast, an internal tool that needs to be reliable, or a set of books that needs balancing — write to me. I read every message, usually reply within a day, and only take work I can do well.
+      </p>
+
+      <div class="contact__channels">
+        <a href="tel:+919725843691" class="channel">
+          <span class="channel__label">Call / WhatsApp</span>
+          <span class="channel__value">+91 85118 39722</span>
+          <span class="channel__action">
+            Open dialer
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M7 17L17 7M17 7H8M17 7v9"/>
+            </svg>
+          </span>
+        </a>
+        <a href="mailto:hello@dishantparmar.dev" class="channel">
+          <span class="channel__label">Email</span>
+          <span class="channel__value">dishantparmar07@gmail.com</span>
+          <span class="channel__action">
+            Open mail
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M7 17L17 7M17 7H8M17 7v9"/>
+            </svg>
+          </span>
+        </a>
+      </div>
+
+      <a href="mailto:hello@dishantparmar.dev" class="contact__cta">
+        Start a conversation
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M5 12h14M13 5l7 7-7 7"/>
+        </svg>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============= Footer ============= -->
+<footer class="footer">
+  <div class="footer__top">
+    <div class="footer__brand">
+      <span class="footer__brand-dot"></span>
+      Dishant M Parmar
+    </div>
+    <nav class="footer__nav">
+      <a href="#identity">Identity</a>
+      <a href="#skills">Skills</a>
+      <a href="#philosophy">Philosophy</a>
+      <a href="#work">Work</a>
+      <a href="#education">Education</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+  <div class="footer__bottom">
+    <span>© 2025 Dishant M Parmar</span>
+    <span>Gujarat · India</span>
+    <span>Built by hand · No frameworks</span>
+  </div>
 </footer>
+
+<script>
+  /* ============= Lenis smooth scroll ============= */
+  const lenis = new Lenis({
+    duration: 1.15,
+    easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smoothWheel: true,
+    smoothTouch: false,
+  });
+  function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+  requestAnimationFrame(raf);
+
+  /* ============= GSAP setup ============= */
+  gsap.registerPlugin(ScrollTrigger);
+  lenis.on('scroll', ScrollTrigger.update);
+
+  /* ============= Nav scroll behaviour ============= */
+  const nav = document.getElementById('nav');
+  function updateNav() {
+    if (window.scrollY > 60) nav.classList.add('is-scrolled');
+    else nav.classList.remove('is-scrolled');
+  }
+  window.addEventListener('scroll', updateNav, { passive: true });
+  updateNav();
+
+  /* ============= Mobile menu ============= */
+  const burger = document.getElementById('navBurger');
+  const mobile = document.getElementById('navMobile');
+  burger.addEventListener('click', () => {
+    burger.classList.toggle('is-open');
+    mobile.classList.toggle('is-open');
+  });
+  mobile.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      burger.classList.remove('is-open');
+      mobile.classList.remove('is-open');
+    });
+  });
+
+  /* ============= Hero 3-layer parallax ============= */
+  const heroSection = document.getElementById('hero');
+  const heroBgText = document.getElementById('heroBgText');
+  const heroPortrait = document.getElementById('heroPortrait');
+  const heroTop = document.getElementById('heroTop');
+  const heroBottom = document.getElementById('heroBottom');
+  const heroTitle = document.getElementById('heroTitle');
+
+  // Hero entrance
+  gsap.to('.hero__title-inner', {
+    y: 0,
+    duration: 1.2,
+    ease: 'power4.out',
+    stagger: 0.14,
+    delay: 0.2
+  });
+
+  gsap.from(heroPortrait, {
+    y: 80,
+    opacity: 0,
+    duration: 1.4,
+    ease: 'power3.out',
+    delay: 0.1
+  });
+
+  gsap.from('.hero__meta-row', {
+    y: 14,
+    opacity: 0,
+    duration: 0.9,
+    ease: 'power3.out',
+    stagger: 0.06,
+    delay: 0.6
+  });
+
+  gsap.from('.hero__quote', {
+    y: 20,
+    opacity: 0,
+    duration: 1,
+    ease: 'power3.out',
+    delay: 1.0
+  });
+
+  gsap.from('.hero__scroll', {
+    opacity: 0,
+    duration: 1,
+    ease: 'power3.out',
+    delay: 1.2
+  });
+
+  gsap.from('.hero__title-sub', {
+    opacity: 0,
+    duration: 1,
+    ease: 'power3.out',
+    delay: 0.9
+  });
+
+  // Parallax (skip on touch)
+  const isCoarse = window.matchMedia('(pointer: coarse)').matches;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!isCoarse && !reduceMotion) {
+    ScrollTrigger.create({
+      trigger: heroSection,
+      start: 'top top',
+      end: 'bottom top',
+      scrub: 1,
+      onUpdate: s => {
+        gsap.set(heroBgText, { yPercent: s.progress * 50 });
+        gsap.set(heroPortrait, { yPercent: s.progress * 20 });
+        gsap.set(heroTitle, { yPercent: s.progress * 8 });
+      }
+    });
+
+    ScrollTrigger.create({
+      trigger: heroSection,
+      start: 'top top',
+      end: '30% top',
+      scrub: 1,
+      onUpdate: s => {
+        gsap.set(heroTop, { opacity: 1 - s.progress, y: -s.progress * 20 });
+        gsap.set(heroBottom, { opacity: 1 - s.progress, y: s.progress * 20 });
+      }
+    });
+  }
+
+  /* ============= Line-mask rise — set --i on each inner ============= */
+  document.querySelectorAll('.identity__heading, .skills__title, .philosophy__title, .work__title, .edu__title, .process__title, .contact__title').forEach(group => {
+    group.querySelectorAll('.inner').forEach((el, i) => el.style.setProperty('--i', i));
+  });
+
+  /* ============= IntersectionObserver — reveal headings & fade-up ============= */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.18, rootMargin: '0px 0px -8% 0px' });
+
+  document.querySelectorAll('.identity__heading, .skills__title, .philosophy__title, .work__title, .edu__title, .process__title, .contact__title, .fade-up').forEach(el => io.observe(el));
+
+  /* ============= 3D Word Ring ============= */
+  const ring = document.getElementById('wordRing');
+  const WORDS = ['BALANCE', 'PRECISION', 'CLARITY', 'PATIENCE', 'INTEGRITY', 'CRAFT'];
+  const allWords = [...WORDS, ...WORDS];
+  const step = 360 / allWords.length;
+  const radius = window.innerWidth < 880 ? 200 : 280;
+
+  allWords.forEach((w, i) => {
+    const d = document.createElement('div');
+    d.className = 'ring-item';
+    d.style.transform = `rotateX(${i * step}deg) translateZ(${radius}px) translateY(-50%)`;
+    d.innerHTML = `<span>${w}</span>`;
+    ring.appendChild(d);
+  });
+
+  const rot = { v: 0 }, spd = { v: 0 };
+  let cr = 0, cs = 0;
+  let ringInView = false;
+
+  if (!reduceMotion) {
+    ScrollTrigger.create({
+      trigger: '#philosophy',
+      start: 'top bottom',
+      end: 'bottom top',
+      scrub: 1,
+      onUpdate: s => {
+        rot.v = s.progress * 540;
+        spd.v = s.getVelocity() * 0.0003;
+      },
+      onToggle: self => { ringInView = self.isActive; }
+    });
+
+    (function tick() {
+      requestAnimationFrame(tick);
+      if (!ringInView) return;
+      cr += (rot.v - cr) * 0.08;
+      cs += (spd.v - cs) * 0.1;
+      spd.v *= 0.95;
+      const abs = Math.abs(cs);
+      const skew = Math.min(abs * 12, 10);
+      const sx = 1 + Math.min(abs * 0.2, 0.12);
+      ring.style.transform = `rotateX(${cr}deg)`;
+      ring.querySelectorAll('.ring-item').forEach(it => {
+        const bl = Math.min(abs * 1.5, 2);
+        it.style.filter = bl > 0.1 ? `blur(${bl}px)` : 'none';
+        const span = it.querySelector('span');
+        if (span) span.style.transform = `translate(-50%, -50%) skewX(${cs > 0 ? skew : -skew}deg) scaleX(${sx})`;
+      });
+    })();
+  }
+
+  /* ============= Anchor smooth scroll via Lenis ============= */
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href');
+      if (id.length > 1) {
+        const target = document.querySelector(id);
+        if (target) {
+          e.preventDefault();
+          lenis.scrollTo(target, { offset: 0, duration: 1.4 });
+        }
+      }
+    });
+  });
+
+  /* ============= Refresh ScrollTrigger after load ============= */
+  window.addEventListener('load', () => ScrollTrigger.refresh());
+</script>
 
 </body>
 </html>
